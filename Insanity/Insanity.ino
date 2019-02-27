@@ -1,3 +1,9 @@
+//-----------------------------------------------------------Solar Shield---------------------------------------------------------------//
+const int analogInPin = A0;  // Analog input pin that the VBAT pin is attached to
+
+
+int BatteryValue = 0;        // value read from the VBAT pin
+float outputValue = 0;        // variable for voltage calculation
 //-----------------------------------------------------------Motor---------------------------------------------------------------//
 //declaration of variables & object
 #include <G15.h>    // include the library
@@ -76,6 +82,15 @@ void movebackward(int speed, int time)
   servo2.SetWheelSpeed(0x01F4,CCW); 
   servo3.SetWheelSpeed(0x01F4,CW); 
   servo4.SetWheelSpeed(0x01F4,CW);
+  delay(time);
+}
+
+void stop_motion(int time)
+{
+  servo1.SetWheelSpeed(0x0000,CCW); 
+  servo2.SetWheelSpeed(0x0000,CCW); 
+  servo3.SetWheelSpeed(0x0000,CW); 
+  servo4.SetWheelSpeed(0x0000,CW);
   delay(time);
 }
 
@@ -164,15 +179,23 @@ void printSerialString()
   }
 }
 
-void stop_motion(int time)
-{
-  servo1.SetWheelSpeed(0x0000,CCW); 
-  servo2.SetWheelSpeed(0x0000,CCW); 
-  servo3.SetWheelSpeed(0x0000,CW); 
-  servo4.SetWheelSpeed(0x0000,CW);
-  delay(time);
-}
+void printBatteryVoltage(){
+  // read the analog in value:
+    BatteryValue = analogRead(analogInPin);
+    // Calculate the battery voltage value
+    outputValue = (float(BatteryValue)*5)/1023*2;
+    // print the results to the serial monitor:
+    Serial.print("Analog value = " );
+    Serial.print(BatteryValue);
+    Serial.print("\t voltage = ");
+    Serial.println(outputValue);
+    Serial.println("V \n");
 
+    // wait 10 milliseconds before the next loop
+    // for the analog-to-digital converter to settle
+    // after the last reading:
+    delay(10);
+}
 void loop() {
   // put your main code here, to run repeatedly:
   if (data[2] == 120 && data[3] == 117 && data[4] == 112)
@@ -223,4 +246,5 @@ void loop() {
   readSerialString();
   delay(dely);
   printSerialString();
+  printBatteryVoltage();
 }
