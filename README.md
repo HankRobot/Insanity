@@ -1,6 +1,4 @@
-# Insanity
-
-# Introduction :laughing:
+# Insanity Introduction :laughing:
 Hey guys Hank here! This is the Github code for the Insanity Robot! If you have any questions please ask!
 
 # There is only 1 main folder here, Insanity!
