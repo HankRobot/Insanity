@@ -1,7 +1,5 @@
 //-----------------------------------------------------------Solar Shield---------------------------------------------------------------//
 const int analogInPin = A0;  // Analog input pin that the VBAT pin is attached to
-
-
 int BatteryValue = 0;        // value read from the VBAT pin
 float outputValue = 0;        // variable for voltage calculation
 //-----------------------------------------------------------Motor---------------------------------------------------------------//
