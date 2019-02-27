@@ -26,7 +26,7 @@ byte data[5];
 int serInIndx  = 0;    // index of serInString[] in which to insert the next incoming byte
 int serOutIndx = 0;    // index of the outgoing serInString[] array;
 int dely = 250;
-
+//-----------------------------------------------------------Functions---------------------------------------------------------------//
 void setup() {
   //initialize the arduino main board's serial/UART and Control Pins
   //CTRL pin for G15 =3 and AX12 =8
@@ -196,6 +196,7 @@ void printBatteryVoltage(){
     // after the last reading:
     delay(10);
 }
+
 void loop() {
   // put your main code here, to run repeatedly:
   if (data[2] == 120 && data[3] == 117 && data[4] == 112)
