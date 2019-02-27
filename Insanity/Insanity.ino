@@ -8,10 +8,10 @@ word STATUS;
 
 //declare G15 Class Object
 //servo1 ID=0x01
-G15 servo1(0x01); 
-G15 servo2(0x02); 
-G15 servo3(0x03); 
-G15 servo4(0x04); 
+G15 servo1(0x02); 
+G15 servo2(0x03); 
+G15 servo3(0x04); 
+G15 servo4(0x05); 
 //-----------------------------------------------------------Bluetooth---------------------------------------------------------------//
 #include <SoftwareSerial.h>
 SoftwareSerial mySerial(2, 3); //TX 2, RX 3
