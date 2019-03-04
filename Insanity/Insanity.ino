@@ -4,22 +4,19 @@ int BatteryValue = 0;        // value read from the VBAT pin
 float outputValue = 0;        // variable for voltage calculation
 //-----------------------------------------------------------Motor---------------------------------------------------------------//
 //declaration of variables & object
-#include <G15.h>    // include the library
-#define LED_BOARD 13
-word ERROR=0;
-byte DATA[10]; 
-word STATUS;
-
-//declare G15 Class Object
-//servo1 ID=0x01
-G15 servo1(0x02); 
-G15 servo2(0x03); 
-G15 servo3(0x04); 
-G15 servo4(0x05); 
-//-----------------------------------------------------------Bluetooth---------------------------------------------------------------//
 #include <SoftwareSerial.h>
-SoftwareSerial mySerial(2, 3); //TX 2, RX 3
-
+Cytron_G15Shield g15(2, 3, 8); // SoftwareSerial: Rx, Tx and Control pin
+#define LED_BOARD 13
+#define G15_lf 1
+#define G15_lb 2
+#define G15_rf 3
+#define G15_rb 4
+#define G15_dl 5
+#define G15_dr 6
+#define G15_s 7
+#define LED 13
+//-----------------------------------------------------------Bluetooth---------------------------------------------------------------//
+SoftwareSerial mySerial(4, 5); //TX 4, RX 5
 byte data[5];
 int serInIndx  = 0;    // index of serInString[] in which to insert the next incoming byte
 int serOutIndx = 0;    // index of the outgoing serInString[] array;
@@ -28,18 +25,13 @@ int dely = 250;
 void setup() {
   //initialize the arduino main board's serial/UART and Control Pins
   //CTRL pin for G15 =3 and AX12 =8
-  G15ShieldInit(19200,3,8); 
+  g15.begin(19200); 
 
   //call the init function to init servo obj
-  servo1.init(); 
-  servo2.init(); 
-  servo3.init(); 
-  servo4.init(); 
-
-  servo1.SetWheelMode();
-  servo2.SetWheelMode();
-  servo3.SetWheelMode();
-  servo4.SetWheelMode();
+  g15.setWheelMode(G15_lf);
+  g15.setWheelMode(G15_lb);
+  g15.setWheelMode(G15_rf);
+  g15.setWheelMode(G15_rb);
 
   Serial.begin(9600); //Start the serial on computer
   mySerial.begin(9600); //Start the serial on bluetooth
@@ -49,46 +41,46 @@ void setup() {
 
 void turnleft(int speed, int time)
 {
-  servo1.SetWheelSpeed(0x01F4,CW); 
-  servo2.SetWheelSpeed(0x01F4,CW); 
-  servo3.SetWheelSpeed(0x01F4,CW); 
-  servo4.SetWheelSpeed(0x01F4,CW);
+  g15.SetWheelSpeed(G15_lf,512,CW); 
+  g15.SetWheelSpeed(G15_lb,512,CW);
+  g15.SetWheelSpeed(G15_rf,512,CW);
+  g15.SetWheelSpeed(G15_rb,512,CW);
   delay(time);
 }
 
 void turnright(int speed, int time)
 {
-  servo1.SetWheelSpeed(0x01F4,CCW); 
-  servo2.SetWheelSpeed(0x01F4,CCW); 
-  servo3.SetWheelSpeed(0x01F4,CCW); 
-  servo4.SetWheelSpeed(0x01F4,CCW);
+  g15.SetWheelSpeed(G15_lf,512,CCW); 
+  g15.SetWheelSpeed(G15_lb,512,CCW);
+  g15.SetWheelSpeed(G15_rf,512,CCW);
+  g15.SetWheelSpeed(G15_rb,512,CCW);
   delay(time);
 }
 
 void moveforward(int speed, int time)
 {
-  servo1.SetWheelSpeed(0x01F4,CW); 
-  servo2.SetWheelSpeed(0x01F4,CW); 
-  servo3.SetWheelSpeed(0x01F4,CCW); 
-  servo4.SetWheelSpeed(0x01F4,CCW);
+  g15.SetWheelSpeed(G15_lf,512,CW); 
+  g15.SetWheelSpeed(G15_lb,512,CW);
+  g15.SetWheelSpeed(G15_rf,512,CCW);
+  g15.SetWheelSpeed(G15_rb,512,CCW);
   delay(time);
 }
 
 void movebackward(int speed, int time)
 {
-  servo1.SetWheelSpeed(0x01F4,CCW); 
-  servo2.SetWheelSpeed(0x01F4,CCW); 
-  servo3.SetWheelSpeed(0x01F4,CW); 
-  servo4.SetWheelSpeed(0x01F4,CW);
+  g15.SetWheelSpeed(G15_lf,512,CCW); 
+  g15.SetWheelSpeed(G15_lb,512,CCW);
+  g15.SetWheelSpeed(G15_rf,512,CW);
+  g15.SetWheelSpeed(G15_rb,512,CW);
   delay(time);
 }
 
 void stop_motion(int time)
 {
-  servo1.SetWheelSpeed(0x0000,CCW); 
-  servo2.SetWheelSpeed(0x0000,CCW); 
-  servo3.SetWheelSpeed(0x0000,CW); 
-  servo4.SetWheelSpeed(0x0000,CW);
+  servolf.SetWheelSpeed(0x0000,CCW); 
+  servolb.SetWheelSpeed(0x0000,CCW); 
+  servorf.SetWheelSpeed(0x0000,CW); 
+  servorb.SetWheelSpeed(0x0000,CW);
   delay(time);
 }
 
@@ -187,8 +179,7 @@ void printBatteryVoltage(){
     Serial.print(BatteryValue);
     Serial.print("\t voltage = ");
     Serial.println(outputValue);
-    Serial.println("V \n");
-
+    Serial.print("V \n");
     // wait 10 milliseconds before the next loop
     // for the analog-to-digital converter to settle
     // after the last reading:
@@ -245,5 +236,6 @@ void loop() {
   readSerialString();
   delay(dely);
   printSerialString();
-  printBatteryVoltage();
+  //mySerial.flush();
+  //printBatteryVoltage();
 }

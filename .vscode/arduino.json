@@ -1,4 +1,5 @@
 {
     "board": "arduino:avr:uno",
-    "sketch": "Insanity\\Insanity.ino"
+    "sketch": "Insanity\\Insanity.ino",
+    "port": "COM10"
 }
