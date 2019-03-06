@@ -1,12 +1,7 @@
-//-----------------------------------------------------------Solar Shield---------------------------------------------------------------//
-const int analogInPin = A0;  // Analog input pin that the VBAT pin is attached to
-int BatteryValue = 0;        // value read from the VBAT pin
-float outputValue = 0;        // variable for voltage calculation
 //-----------------------------------------------------------Motor---------------------------------------------------------------//
 //declaration of variables & object
 #include <SoftwareSerial.h>
-Cytron_G15Shield g15(2, 3, 8); // SoftwareSerial: Rx, Tx and Control pin
-#define LED_BOARD 13
+#include <Cytron_G15Shield.h>
 #define G15_lf 1
 #define G15_lb 2
 #define G15_rf 3
@@ -15,24 +10,29 @@ Cytron_G15Shield g15(2, 3, 8); // SoftwareSerial: Rx, Tx and Control pin
 #define G15_dr 6
 #define G15_s 7
 #define LED 13
+Cytron_G15Shield g15(2, 3, 8); // SoftwareSerial: Rx, Tx and Control pin
+//-----------------------------------------------------------Solar Shield---------------------------------------------------------------//
+const int analogInPin = A0;  // Analog input pin that the VBAT pin is attached to
+int BatteryValue = 0;        // value read from the VBAT pin
+float outputValue = 0;        // variable for voltage calculation
 //-----------------------------------------------------------Bluetooth---------------------------------------------------------------//
 SoftwareSerial mySerial(4, 5); //TX 4, RX 5
 byte data[5];
 int serInIndx  = 0;    // index of serInString[] in which to insert the next incoming byte
 int serOutIndx = 0;    // index of the outgoing serInString[] array;
-int dely = 250;
+int dely = 100;
 //-----------------------------------------------------------Functions---------------------------------------------------------------//
 void setup() {
   //initialize the arduino main board's serial/UART and Control Pins
   //CTRL pin for G15 =3 and AX12 =8
   g15.begin(19200); 
-
-  //call the init function to init servo obj
   g15.setWheelMode(G15_lf);
   g15.setWheelMode(G15_lb);
   g15.setWheelMode(G15_rf);
   g15.setWheelMode(G15_rb);
-
+  g15.setWheelMode(G15_dl);
+  g15.setWheelMode(G15_dr);
+  g15.setWheelMode(G15_s);
   Serial.begin(9600); //Start the serial on computer
   mySerial.begin(9600); //Start the serial on bluetooth
 
@@ -41,46 +41,46 @@ void setup() {
 
 void turnleft(int speed, int time)
 {
-  g15.SetWheelSpeed(G15_lf,512,CW); 
-  g15.SetWheelSpeed(G15_lb,512,CW);
-  g15.SetWheelSpeed(G15_rf,512,CW);
-  g15.SetWheelSpeed(G15_rb,512,CW);
+  g15.setWheelSpeed(G15_lf,512,CW); 
+  g15.setWheelSpeed(G15_lb,512,CW);
+  g15.setWheelSpeed(G15_rf,512,CW);
+  g15.setWheelSpeed(G15_rb,512,CW);
   delay(time);
 }
 
 void turnright(int speed, int time)
 {
-  g15.SetWheelSpeed(G15_lf,512,CCW); 
-  g15.SetWheelSpeed(G15_lb,512,CCW);
-  g15.SetWheelSpeed(G15_rf,512,CCW);
-  g15.SetWheelSpeed(G15_rb,512,CCW);
+  g15.setWheelSpeed(G15_lf,512,CCW); 
+  g15.setWheelSpeed(G15_lb,512,CCW);
+  g15.setWheelSpeed(G15_rf,512,CCW);
+  g15.setWheelSpeed(G15_rb,512,CCW);
   delay(time);
 }
 
 void moveforward(int speed, int time)
 {
-  g15.SetWheelSpeed(G15_lf,512,CW); 
-  g15.SetWheelSpeed(G15_lb,512,CW);
-  g15.SetWheelSpeed(G15_rf,512,CCW);
-  g15.SetWheelSpeed(G15_rb,512,CCW);
+  g15.setWheelSpeed(G15_lf,512,CW); 
+  g15.setWheelSpeed(G15_lb,512,CW);
+  g15.setWheelSpeed(G15_rf,512,CCW);
+  g15.setWheelSpeed(G15_rb,512,CCW);
   delay(time);
 }
 
 void movebackward(int speed, int time)
 {
-  g15.SetWheelSpeed(G15_lf,512,CCW); 
-  g15.SetWheelSpeed(G15_lb,512,CCW);
-  g15.SetWheelSpeed(G15_rf,512,CW);
-  g15.SetWheelSpeed(G15_rb,512,CW);
+  g15.setWheelSpeed(G15_lf,512,CCW); 
+  g15.setWheelSpeed(G15_lb,512,CCW);
+  g15.setWheelSpeed(G15_rf,512,CW);
+  g15.setWheelSpeed(G15_rb,512,CW);
   delay(time);
 }
 
 void stop_motion(int time)
 {
-  servolf.SetWheelSpeed(0x0000,CCW); 
-  servolb.SetWheelSpeed(0x0000,CCW); 
-  servorf.SetWheelSpeed(0x0000,CW); 
-  servorb.SetWheelSpeed(0x0000,CW);
+  g15.exitWheelMode(G15_lf);
+  g15.exitWheelMode(G15_lb);
+  g15.exitWheelMode(G15_rf);
+  g15.exitWheelMode(G15_rb);
   delay(time);
 }
 
@@ -230,12 +230,12 @@ void loop() {
   }
   if (data[0] == 255 && data[1] == 255 && data[2] == 255 && data[3] == 255 && data[4] == 255)
   {
-    dely = 250;
+    dely = 100;
     mySerial.flush();
   }
   readSerialString();
   delay(dely);
   printSerialString();
-  //mySerial.flush();
+  mySerial.flush();
   //printBatteryVoltage();
 }
