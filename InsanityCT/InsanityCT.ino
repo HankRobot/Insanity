@@ -20,49 +20,72 @@ void setup() {
   g15.setWheelMode(G15_lb);
   g15.setWheelMode(G15_rf);
   g15.setWheelMode(G15_rb);
-  g15.setWheelMode(G15_dl);
-  g15.setWheelMode(G15_dr);
-  g15.setWheelMode(G15_s);
+  g15.exitWheelMode(G15_dl);
+  g15.exitWheelMode(G15_dr);
+  g15.exitWheelMode(G15_s);
   Serial.begin(9600); //Start the serial on computer
-  mySerial.begin(9600); //Start the serial on bluetooth
-
   delay(1000);
 }
 
 void turnleft(int speed, int time)
 {
-  g15.setWheelSpeed(G15_lf,512,CW); 
-  g15.setWheelSpeed(G15_lb,512,CW);
-  g15.setWheelSpeed(G15_rf,512,CW);
-  g15.setWheelSpeed(G15_rb,512,CW);
+  g15.setWheelMode(G15_lf);
+  g15.setWheelMode(G15_lb);
+  g15.setWheelMode(G15_rf);
+  g15.setWheelMode(G15_rb);
+  g15.setWheelSpeed(G15_lf,speed,CW); 
+  g15.setWheelSpeed(G15_lb,speed,CW);
+  g15.setWheelSpeed(G15_rf,speed,CW);
+  g15.setWheelSpeed(G15_rb,speed,CW);
   delay(time);
 }
 
 void turnright(int speed, int time)
 {
-  g15.setWheelSpeed(G15_lf,512,CCW); 
-  g15.setWheelSpeed(G15_lb,512,CCW);
-  g15.setWheelSpeed(G15_rf,512,CCW);
-  g15.setWheelSpeed(G15_rb,512,CCW);
+  g15.setWheelMode(G15_lf);
+  g15.setWheelMode(G15_lb);
+  g15.setWheelMode(G15_rf);
+  g15.setWheelMode(G15_rb);
+  g15.setWheelSpeed(G15_lf,speed,CCW); 
+  g15.setWheelSpeed(G15_lb,speed,CCW);
+  g15.setWheelSpeed(G15_rf,speed,CCW);
+  g15.setWheelSpeed(G15_rb,speed,CCW);
   delay(time);
 }
 
 void moveforward(int speed, int time)
 {
-  g15.setWheelSpeed(G15_lf,512,CW); 
-  g15.setWheelSpeed(G15_lb,512,CW);
-  g15.setWheelSpeed(G15_rf,512,CCW);
-  g15.setWheelSpeed(G15_rb,512,CCW);
+  g15.setWheelMode(G15_lf);
+  g15.setWheelMode(G15_lb);
+  g15.setWheelMode(G15_rf);
+  g15.setWheelMode(G15_rb);
+  g15.setWheelSpeed(G15_lf,speed,CW); 
+  g15.setWheelSpeed(G15_lb,speed,CW);
+  g15.setWheelSpeed(G15_rf,speed,CCW);
+  g15.setWheelSpeed(G15_rb,speed,CCW);
   delay(time);
 }
 
 void movebackward(int speed, int time)
 {
-  g15.setWheelSpeed(G15_lf,512,CCW); 
-  g15.setWheelSpeed(G15_lb,512,CCW);
-  g15.setWheelSpeed(G15_rf,512,CW);
-  g15.setWheelSpeed(G15_rb,512,CW);
+  g15.setWheelMode(G15_lf);
+  g15.setWheelMode(G15_lb);
+  g15.setWheelMode(G15_rf);
+  g15.setWheelMode(G15_rb);
+  g15.setWheelSpeed(G15_lf,speed,CCW); 
+  g15.setWheelSpeed(G15_lb,speed,CCW);
+  g15.setWheelSpeed(G15_rf,speed,CW);
+  g15.setWheelSpeed(G15_rb,speed,CW);
   delay(time);
+}
+
+void excavate(int speed){
+  g15.setSpeed(G15_dl, 250);
+  g15.setSpeed(G15_dr, 250);
+  g15.setSpeed(G15_s, 250);
+  g15.setPosAngle(G15_dl, 270); 
+  g15.setPosAngle(G15_dl, 90); 
+  g15.setPosAngle(G15_dl, 350); 
 }
 
 void stop_motion(int time)
@@ -75,5 +98,35 @@ void stop_motion(int time)
 }
 
 void loop() {
-
+  
+  Serial.print(digitalRead(7));
+  Serial.print(digitalRead(6));
+  Serial.print(digitalRead(5));
+  Serial.println(digitalRead(4));
+  
+  if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==LOW && digitalRead(4)==HIGH) {
+    Serial.println("Turning Left");
+    turnleft(300,0);
+  }
+  else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==HIGH && digitalRead(4)==LOW) {
+    turnright(300,0);
+  }
+  else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==HIGH && digitalRead(4)==HIGH) {
+    moveforward(300,0);
+  }
+  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==LOW && digitalRead(4)==LOW) {
+    movebackward(300,0);
+  }
+  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==LOW && digitalRead(4)==LOW) {
+    movebackward(300,0);
+  }
+  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==LOW && digitalRead(4)==LOW) {
+    movebackward(300,0);
+  }
+  else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==LOW && digitalRead(4)==LOW) {
+    stop_motion(10);
+  }
+  else {
+    stop_motion(10);
+  }
 }
