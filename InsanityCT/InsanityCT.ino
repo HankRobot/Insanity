@@ -20,9 +20,9 @@ void setup() {
   g15.setWheelMode(G15_lb);
   g15.setWheelMode(G15_rf);
   g15.setWheelMode(G15_rb);
-  g15.exitWheelMode(G15_dl);
-  g15.exitWheelMode(G15_dr);
-  g15.exitWheelMode(G15_s);
+  g15.setWheelMode(G15_dl);
+  g15.setWheelMode(G15_dr);
+  g15.setWheelMode(G15_s);
   Serial.begin(9600); //Start the serial on computer
   delay(1000);
 }
@@ -79,15 +79,6 @@ void movebackward(int speed, int time)
   delay(time);
 }
 
-void excavate(int speed){
-  g15.setSpeed(G15_dl, 250);
-  g15.setSpeed(G15_dr, 250);
-  g15.setSpeed(G15_s, 250);
-  g15.setPosAngle(G15_dl, 270); 
-  g15.setPosAngle(G15_dl, 90); 
-  g15.setPosAngle(G15_dl, 350); 
-}
-
 void stop_motion(int time)
 {
   g15.exitWheelMode(G15_lf);
@@ -98,12 +89,6 @@ void stop_motion(int time)
 }
 
 void loop() {
-  
-  Serial.print(digitalRead(7));
-  Serial.print(digitalRead(6));
-  Serial.print(digitalRead(5));
-  Serial.println(digitalRead(4));
-  
   if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==LOW && digitalRead(4)==HIGH) {
     Serial.println("Turning Left");
     turnleft(300,0);
