@@ -1,16 +1,11 @@
-//#define
-/*#define
-#define
-#define
-#define
-#define*/
-
 int left[4]={0,0,0,1};
 int right[4]={0,0,1,0};
 int forward[4]={0,0,1,1};
 int reverse[4]={0,1,0,0};
 int excavate[4]={0,1,0,1};
 int shake[4]={0,1,1,0};
+int towup[4]={1,0,0,1};
+int towdown[4]={1,0,1,0};
 
 int pincount=0;
 char cmd;
@@ -26,11 +21,6 @@ void setup() {
   Serial.begin(9600);
   Serial.println("HELLO");
 
-}
-
-
-void usecommand()
-{
 }
 
 void loop() 
@@ -119,6 +109,30 @@ void loop()
       Serial.flush();
     }
 
+    else if (cmd=='U')
+    {
+      pincount=0;
+      for (int i=7; i>3; i--)
+      {
+        digitalWrite(i,towup[pincount]);
+        pincount++;
+      }
+      delay(100);
+      Serial.flush();
+    }
+
+    else if (cmd=='D')
+    {
+      pincount=0;
+      for (int i=7; i>3; i--)
+      {
+        digitalWrite(i,towdown[pincount]);
+        pincount++;
+      }
+      delay(100);
+      Serial.flush();
+    }
+
     else if (cmd=='X')
     {
       pincount=0;
@@ -143,10 +157,7 @@ void loop()
       delay(100);
       Serial.flush();
     }
-
-  
-}
-  
+  }
 }
 
 
