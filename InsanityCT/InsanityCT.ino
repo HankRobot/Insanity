@@ -15,7 +15,7 @@ Cytron_G15Shield g15(2, 3, 8); // SoftwareSerial: Rx, Tx and Control pin
 void setup() {
   //initialize the arduino main board's serial/UART and Control Pins
   //CTRL pin for G15 =3 and AX12 =8
-  g15.begin(19200); 
+  g15.begin(38400); 
   g15.setWheelMode(G15_lf);
   g15.setWheelMode(G15_lb);
   g15.setWheelMode(G15_rf);
