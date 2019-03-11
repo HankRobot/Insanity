@@ -90,7 +90,6 @@ void stop_motion(int time)
 
 void loop() {
   if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==LOW && digitalRead(4)==HIGH) {
-    Serial.println("Turning Left");
     turnleft(300,0);
   }
   else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==HIGH && digitalRead(4)==LOW) {
