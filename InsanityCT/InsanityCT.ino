@@ -100,26 +100,29 @@ void pulldown(){
 }
 
 void loop() {
-  if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==LOW && digitalRead(4)==HIGH) {
+  if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==LOW && digitalRead(4)==HIGH) { //0001
     turnleft(300,0);
   }
-  else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==HIGH && digitalRead(4)==LOW) {
+  else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==HIGH && digitalRead(4)==LOW) { //0010
     turnright(300,0);
   }
-  else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==HIGH && digitalRead(4)==HIGH) {
+  else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==HIGH && digitalRead(4)==HIGH) { //0011
     moveforward(300,0);
   }
-  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==LOW && digitalRead(4)==LOW) {
+  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==LOW && digitalRead(4)==LOW) { //0100
     movebackward(300,0);
   }
-  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==LOW && digitalRead(4)==LOW) {
-    movebackward(300,0);
+  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==LOW && digitalRead(4)==HIGH) { //0101
+    excavate();
   }
-  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==LOW && digitalRead(4)==LOW) {
-    movebackward(300,0);
+  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==HIGH && digitalRead(4)==LOW) { //0110
+    shake();
   }
-  else if (digitalRead(7)==LOW && digitalRead(6)==LOW && digitalRead(5)==LOW && digitalRead(4)==LOW) {
-    stop_motion(10);
+  else if (digitalRead(7)==LOW && digitalRead(6)==HIGH && digitalRead(5)==HIGH && digitalRead(4)==HIGH) { //0111
+    pullup();
+  }
+  else if (digitalRead(7)==HIGH && digitalRead(6)==LOW && digitalRead(5)==LOW && digitalRead(4)==LOW) { //0111
+    pulldown();
   }
   else {
     stop_motion(10);
