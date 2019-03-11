@@ -27,8 +27,7 @@ void setup() {
   delay(1000);
 }
 
-void turnleft(int speed, int time)
-{
+void turnleft(int speed, int time){
   g15.setWheelMode(G15_lf);
   g15.setWheelMode(G15_lb);
   g15.setWheelMode(G15_rf);
@@ -40,8 +39,7 @@ void turnleft(int speed, int time)
   delay(time);
 }
 
-void turnright(int speed, int time)
-{
+void turnright(int speed, int time){
   g15.setWheelMode(G15_lf);
   g15.setWheelMode(G15_lb);
   g15.setWheelMode(G15_rf);
@@ -53,8 +51,7 @@ void turnright(int speed, int time)
   delay(time);
 }
 
-void moveforward(int speed, int time)
-{
+void moveforward(int speed, int time){
   g15.setWheelMode(G15_lf);
   g15.setWheelMode(G15_lb);
   g15.setWheelMode(G15_rf);
@@ -66,8 +63,7 @@ void moveforward(int speed, int time)
   delay(time);
 }
 
-void movebackward(int speed, int time)
-{
+void movebackward(int speed, int time){
   g15.setWheelMode(G15_lf);
   g15.setWheelMode(G15_lb);
   g15.setWheelMode(G15_rf);
@@ -79,13 +75,28 @@ void movebackward(int speed, int time)
   delay(time);
 }
 
-void stop_motion(int time)
-{
+void stop_motion(int time){
   g15.exitWheelMode(G15_lf);
   g15.exitWheelMode(G15_lb);
   g15.exitWheelMode(G15_rf);
   g15.exitWheelMode(G15_rb);
   delay(time);
+}
+
+void excavate(){
+
+}
+
+void shake(){
+
+}
+
+void pullup(){
+  
+}
+
+void pulldown(){
+  
 }
 
 void loop() {
