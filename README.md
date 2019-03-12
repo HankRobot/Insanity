@@ -1,8 +1,9 @@
 # Insanity Introduction :laughing:
 Hey guys Hank here! This is the Github code for the Insanity Robot! If you have any questions please ask!
 
-# There is only 1 main folder here, Insanity!
-1. Folder Insanity contains code for the robot Insanity.:smile:
+# There is are 2 main folder here, InsanityCT and InsanityMK! :smile:
+1. Folder InsanityCT contains code for the CT Uno, mainly on locomoton and motor controls. 
+2. Folder InsanityMK contains code for the Maker Uno, mainly on bluetooth functions. 
 
 # Getting Started
 1. Download the zip code of this file, then extract it.
@@ -10,8 +11,8 @@ Hey guys Hank here! This is the Github code for the Insanity Robot! If you have 
 2. Open the code in Arduino IDE, select your COM port and upload.
 
 # Contribute
-1. Does this work?
-2. Havent change motor id.
+1. How to add ultrasonic sensor into the robot?
+2. Is it possible to add raspberry pi to the robot for cigaratte detection?
 
 #HAPPY CODING!!! :heart:
 
